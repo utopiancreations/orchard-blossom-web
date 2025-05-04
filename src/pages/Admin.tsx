@@ -16,6 +16,8 @@ const Admin = () => {
     // Check if Supabase is properly initialized
     if (!supabase) {
       toast.error("Cannot connect to Supabase. Please check your configuration.");
+      navigate("/admin/login");
+      setIsLoading(false);
       return;
     }
 

@@ -21,22 +21,11 @@ const Login = () => {
   useEffect(() => {
     if (!supabase) {
       sonnerToast.error("Supabase connection not available. Please check your environment configuration.");
+      setSupabaseReady(false);
       return;
     }
     
-    // Check if we have valid Supabase URL and key
-    const checkSupabaseConnection = async () => {
-      try {
-        // Simple test query to check connection
-        await supabase.from('settings').select('count', { count: 'exact', head: true });
-        setSupabaseReady(true);
-      } catch (error) {
-        console.error("Supabase connection error:", error);
-        sonnerToast.error("Failed to connect to Supabase. Please check your configuration.");
-      }
-    };
-    
-    checkSupabaseConnection();
+    setSupabaseReady(true);
   }, [supabase]);
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -112,6 +101,12 @@ const Login = () => {
                 required
               />
             </div>
+            {!supabaseReady && (
+              <div className="p-3 bg-red-50 border border-red-200 rounded-md text-red-600 text-sm">
+                <p className="font-medium mb-1">Supabase Connection Error</p>
+                <p>The application cannot connect to the backend services. Please check that Supabase is properly configured.</p>
+              </div>
+            )}
           </CardContent>
           <CardFooter>
             <Button 
