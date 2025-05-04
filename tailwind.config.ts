@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,18 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Moffatt Ranch colors
+				peach: {
+					light: "#FDE1D3",
+					DEFAULT: "#F97316"
+				},
+				leaf: {
+					DEFAULT: "#F2FCE2"
+				},
+				ranch: {
+					blue: "#0EA5E9",
+					dark: "#221F26"
 				}
 			},
 			borderRadius: {
@@ -89,6 +102,10 @@ export default {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out'
+			},
+			fontFamily: {
+				serif: ['Playfair Display', 'serif'],
+				sans: ['Roboto', 'sans-serif']
 			}
 		}
 	},
