@@ -1,22 +1,56 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { toast as sonnerToast } from "sonner";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [supabaseReady, setSupabaseReady] = useState(false);
   const navigate = useNavigate();
   const supabase = useSupabaseClient();
   const { toast } = useToast();
 
+  // Check if Supabase is initialized properly
+  useEffect(() => {
+    if (!supabase) {
+      sonnerToast.error("Supabase connection not available. Please check your environment configuration.");
+      return;
+    }
+    
+    // Check if we have valid Supabase URL and key
+    const checkSupabaseConnection = async () => {
+      try {
+        // Simple test query to check connection
+        await supabase.from('settings').select('count', { count: 'exact', head: true });
+        setSupabaseReady(true);
+      } catch (error) {
+        console.error("Supabase connection error:", error);
+        sonnerToast.error("Failed to connect to Supabase. Please check your configuration.");
+      }
+    };
+    
+    checkSupabaseConnection();
+  }, [supabase]);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!supabaseReady) {
+      toast({
+        title: "Connection error",
+        description: "Cannot connect to authentication service. Please check your configuration.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setLoading(true);
 
     try {
@@ -83,7 +117,7 @@ const Login = () => {
             <Button 
               type="submit" 
               className="w-full bg-peach hover:bg-peach/90"
-              disabled={loading}
+              disabled={loading || !supabaseReady}
             >
               {loading ? "Logging in..." : "Login"}
             </Button>

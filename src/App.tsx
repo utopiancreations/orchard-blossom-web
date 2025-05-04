@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { createClient } from "@supabase/supabase-js";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
+import { toast } from "sonner";
 
 // Pages
 import Index from "./pages/Index";
@@ -30,11 +31,22 @@ import FruitManager from "./pages/admin/FruitManager";
 
 const queryClient = new QueryClient();
 
-// Initialize Supabase client
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+// Initialize Supabase client with fallback values for development
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || "";
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || "";
 
-const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+// Check if Supabase credentials are available
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error("Supabase environment variables are missing. Please ensure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set.");
+}
+
+// Create Supabase client only if URL and key are available
+let supabaseClient;
+try {
+  supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+} catch (error) {
+  console.error("Failed to initialize Supabase client:", error);
+}
 
 const App = () => (
   <SessionContextProvider supabaseClient={supabaseClient}>

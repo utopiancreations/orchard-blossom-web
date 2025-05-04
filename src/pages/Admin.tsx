@@ -1,21 +1,58 @@
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Outlet } from "react-router-dom";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { Separator } from "@/components/ui/separator";
 import AdminSidebar from "@/components/admin/AdminSidebar";
+import { toast } from "sonner";
 
 const Admin = () => {
   const user = useUser();
   const navigate = useNavigate();
   const supabase = useSupabaseClient();
-
+  const [isLoading, setIsLoading] = useState(true);
+  
   useEffect(() => {
-    // Redirect to login if not authenticated
-    if (!user) {
-      navigate("/admin/login");
+    // Check if Supabase is properly initialized
+    if (!supabase) {
+      toast.error("Cannot connect to Supabase. Please check your configuration.");
+      return;
     }
-  }, [user, navigate]);
+
+    const checkAuth = async () => {
+      try {
+        // Check if user is authenticated
+        const { data, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          console.error("Auth error:", error);
+          toast.error("Authentication error. Please try logging in again.");
+          navigate("/admin/login");
+          return;
+        }
+        
+        if (!data.session) {
+          navigate("/admin/login");
+        }
+        
+      } catch (error) {
+        console.error("Auth check failed:", error);
+        toast.error("Authentication check failed");
+        navigate("/admin/login");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, [user, navigate, supabase]);
+
+  // Show loading state
+  if (isLoading) return (
+    <div className="flex min-h-screen items-center justify-center bg-slate-50">
+      <p className="text-xl text-gray-500">Loading admin panel...</p>
+    </div>
+  );
 
   // If no user, don't render admin content
   if (!user) return null;
