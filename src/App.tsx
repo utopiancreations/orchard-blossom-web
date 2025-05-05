@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -51,26 +51,63 @@ const App = () => {
                 <Route path="settings" element={<SettingsManager />} />
               </Route>
               
-              {/* Public Routes */}
-              <Route
-                path="/"
-                element={
-                  <div className="flex flex-col min-h-screen">
-                    <Navbar />
-                    <main className="flex-grow">
-                      <Routes>
-                        <Route path="/" element={<Index />} />
-                        <Route path="/about" element={<About />} />
-                        <Route path="/fruit" element={<Fruit />} />
-                        <Route path="/visit" element={<Visit />} />
-                        <Route path="/contact" element={<Contact />} />
-                        <Route path="*" element={<NotFound />} />
-                      </Routes>
-                    </main>
-                    <Footer />
-                  </div>
-                }
-              />
+              {/* Public Routes with Layout */}
+              <Route path="/" element={
+                <div className="flex flex-col min-h-screen">
+                  <Navbar />
+                  <main className="flex-grow">
+                    <Index />
+                  </main>
+                  <Footer />
+                </div>
+              } />
+              <Route path="/about" element={
+                <div className="flex flex-col min-h-screen">
+                  <Navbar />
+                  <main className="flex-grow">
+                    <About />
+                  </main>
+                  <Footer />
+                </div>
+              } />
+              <Route path="/fruit" element={
+                <div className="flex flex-col min-h-screen">
+                  <Navbar />
+                  <main className="flex-grow">
+                    <Fruit />
+                  </main>
+                  <Footer />
+                </div>
+              } />
+              <Route path="/visit" element={
+                <div className="flex flex-col min-h-screen">
+                  <Navbar />
+                  <main className="flex-grow">
+                    <Visit />
+                  </main>
+                  <Footer />
+                </div>
+              } />
+              <Route path="/contact" element={
+                <div className="flex flex-col min-h-screen">
+                  <Navbar />
+                  <main className="flex-grow">
+                    <Contact />
+                  </main>
+                  <Footer />
+                </div>
+              } />
+              
+              {/* 404 Route */}
+              <Route path="*" element={
+                <div className="flex flex-col min-h-screen">
+                  <Navbar />
+                  <main className="flex-grow">
+                    <NotFound />
+                  </main>
+                  <Footer />
+                </div>
+              } />
             </Routes>
           </BrowserRouter>
         </TooltipProvider>
