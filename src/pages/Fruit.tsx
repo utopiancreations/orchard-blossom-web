@@ -1,88 +1,87 @@
 
+import { useEffect, useState } from "react";
 import Hero from "../components/Hero";
+import { supabase } from "@/integrations/supabase/client";
 
 type FruitVariety = {
+  id: string;
   name: string;
   description: string;
-  season: string;
-  image: string;
-  type: "yellow-peach" | "white-peach" | "yellow-nectarine" | "white-nectarine" | "asian-pear";
+  available_from: string;
+  available_to: string;
+  image_url: string;
+  type: "yellow_peach" | "white_peach" | "yellow_nectarine" | "white_nectarine" | "asian_pear";
 };
 
-const fruitVarieties: FruitVariety[] = [
-  {
-    name: "Red Haven Peach",
-    description: "A classic yellow peach with excellent flavor and firmness. Great for eating fresh or canning.",
-    season: "Mid-June to early July",
-    image: "/lovable-uploads/87ed0cf3-be46-4d35-945a-8b493c437024.png",
-    type: "yellow-peach"
-  },
-  {
-    name: "Elegant Lady Peach",
-    description: "Large, juicy yellow peach with exceptional sweetness and beautiful red blush skin.",
-    season: "Mid to late July",
-    image: "/lovable-uploads/87ed0cf3-be46-4d35-945a-8b493c437024.png",
-    type: "yellow-peach"
-  },
-  {
-    name: "O'Henry Peach",
-    description: "A late-season favorite with rich flavor and firm texture. Perfect for fresh eating and preserves.",
-    season: "Late July to early August",
-    image: "/lovable-uploads/7a4769d7-643d-4a8f-84fa-4ed084f81d1f.png",
-    type: "yellow-peach"
-  },
-  {
-    name: "Snow King White Peach",
-    description: "Sweet white flesh with low acidity and delicate floral notes. A melt-in-your-mouth experience.",
-    season: "Mid to late July",
-    image: "/lovable-uploads/7a4769d7-643d-4a8f-84fa-4ed084f81d1f.png",
-    type: "white-peach"
-  },
-  {
-    name: "Arctic Supreme White Peach",
-    description: "Incredibly sweet white peach with hints of honey and almond. Customer favorite!",
-    season: "Late July",
-    image: "/lovable-uploads/7a4769d7-643d-4a8f-84fa-4ed084f81d1f.png",
-    type: "white-peach"
-  },
-  {
-    name: "Independence Nectarine",
-    description: "Early-season yellow nectarine with excellent flavor balance and beautiful red skin.",
-    season: "Late June to early July",
-    image: "/lovable-uploads/7b44f342-65a3-47b7-b937-50b5ebb4b1bb.png",
-    type: "yellow-nectarine"
-  },
-  {
-    name: "Fantasia Nectarine",
-    description: "Large yellow nectarine with outstanding sweet flavor and aromatic qualities.",
-    season: "Mid-July",
-    image: "/lovable-uploads/7b44f342-65a3-47b7-b937-50b5ebb4b1bb.png",
-    type: "yellow-nectarine"
-  },
-  {
-    name: "Arctic Rose White Nectarine",
-    description: "Sweet, juicy white-fleshed nectarine with beautiful red skin and minimal acidity.",
-    season: "Mid to late July",
-    image: "/lovable-uploads/7b44f342-65a3-47b7-b937-50b5ebb4b1bb.png",
-    type: "white-nectarine"
-  },
-  {
-    name: "Shinko Asian Pear",
-    description: "Crisp, juicy pear with light brown russet skin and sweet, refreshing flavor.",
-    season: "August to September",
-    image: "/lovable-uploads/972e2dff-cf65-4a68-9d46-7919f34e7fd5.png",
-    type: "asian-pear"
-  },
-  {
-    name: "Hosui Asian Pear",
-    description: "Golden brown skin with exceptionally juicy, sweet flesh. Crisp like an apple but with pear flavor.",
-    season: "August",
-    image: "/lovable-uploads/972e2dff-cf65-4a68-9d46-7919f34e7fd5.png",
-    type: "asian-pear"
-  }
-];
-
 const Fruit = () => {
+  const [fruitVarieties, setFruitVarieties] = useState<FruitVariety[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchFruits = async () => {
+      try {
+        setLoading(true);
+        const { data, error } = await supabase
+          .from('fruits')
+          .select('*')
+          .order('name');
+          
+        if (error) throw error;
+        
+        if (data && data.length > 0) {
+          setFruitVarieties(data);
+        } else {
+          // If no fruit data is found in the database, display a message
+          setError("No fruit varieties found. Please add some in the admin panel.");
+        }
+      } catch (err) {
+        console.error("Error fetching fruits:", err);
+        setError("Failed to load fruit data. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFruits();
+  }, []);
+
+  // Helper function to render fruit sections
+  const renderFruitSection = (type: string, title: string, bgColor: string) => {
+    const filteredFruits = fruitVarieties.filter(fruit => fruit.type === type);
+    
+    if (filteredFruits.length === 0) return null;
+    
+    return (
+      <section className={`section-padding ${bgColor}`}>
+        <div className="container mx-auto">
+          <h2 className="heading-medium text-center mb-10">{title}</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {filteredFruits.map((fruit) => (
+              <div key={fruit.id} className={`${bgColor === 'bg-white' ? 'bg-leaf' : 'bg-white'} rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row`}>
+                <div className="md:w-1/3">
+                  <img 
+                    src={fruit.image_url || "/placeholder.svg"} 
+                    alt={fruit.name} 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-6 md:w-2/3">
+                  <h3 className="text-xl font-serif font-semibold mb-2">{fruit.name}</h3>
+                  <p className="text-gray-700 mb-3">{fruit.description}</p>
+                  <p className="text-sm text-peach font-medium">
+                    Season: {fruit.available_from} - {fruit.available_to}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  };
+
   return (
     <div>
       <Hero
@@ -107,145 +106,27 @@ const Fruit = () => {
         </div>
       </section>
       
-      {/* Yellow Peaches */}
-      <section className="section-padding bg-peach-light">
-        <div className="container mx-auto">
-          <h2 className="heading-medium text-center mb-10">Yellow Peaches</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {fruitVarieties
-              .filter(fruit => fruit.type === "yellow-peach")
-              .map((fruit, index) => (
-                <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row">
-                  <div className="md:w-1/3">
-                    <img 
-                      src={fruit.image} 
-                      alt={fruit.name} 
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-6 md:w-2/3">
-                    <h3 className="text-xl font-serif font-semibold mb-2">{fruit.name}</h3>
-                    <p className="text-gray-700 mb-3">{fruit.description}</p>
-                    <p className="text-sm text-peach font-medium">Season: {fruit.season}</p>
-                  </div>
-                </div>
-              ))}
+      {loading ? (
+        <section className="section-padding bg-white">
+          <div className="container mx-auto text-center">
+            <p className="text-xl text-gray-600">Loading fruit varieties...</p>
           </div>
-        </div>
-      </section>
-      
-      {/* White Peaches */}
-      <section className="section-padding bg-white">
-        <div className="container mx-auto">
-          <h2 className="heading-medium text-center mb-10">White Peaches</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {fruitVarieties
-              .filter(fruit => fruit.type === "white-peach")
-              .map((fruit, index) => (
-                <div key={index} className="bg-leaf rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row">
-                  <div className="md:w-1/3">
-                    <img 
-                      src={fruit.image} 
-                      alt={fruit.name} 
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-6 md:w-2/3">
-                    <h3 className="text-xl font-serif font-semibold mb-2">{fruit.name}</h3>
-                    <p className="text-gray-700 mb-3">{fruit.description}</p>
-                    <p className="text-sm text-peach font-medium">Season: {fruit.season}</p>
-                  </div>
-                </div>
-              ))}
+        </section>
+      ) : error ? (
+        <section className="section-padding bg-white">
+          <div className="container mx-auto text-center">
+            <p className="text-xl text-red-600">{error}</p>
           </div>
-        </div>
-      </section>
-      
-      {/* Yellow Nectarines */}
-      <section className="section-padding bg-peach-light">
-        <div className="container mx-auto">
-          <h2 className="heading-medium text-center mb-10">Yellow Nectarines</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {fruitVarieties
-              .filter(fruit => fruit.type === "yellow-nectarine")
-              .map((fruit, index) => (
-                <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row">
-                  <div className="md:w-1/3">
-                    <img 
-                      src={fruit.image} 
-                      alt={fruit.name} 
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-6 md:w-2/3">
-                    <h3 className="text-xl font-serif font-semibold mb-2">{fruit.name}</h3>
-                    <p className="text-gray-700 mb-3">{fruit.description}</p>
-                    <p className="text-sm text-peach font-medium">Season: {fruit.season}</p>
-                  </div>
-                </div>
-              ))}
-          </div>
-        </div>
-      </section>
-      
-      {/* White Nectarines */}
-      <section className="section-padding bg-white">
-        <div className="container mx-auto">
-          <h2 className="heading-medium text-center mb-10">White Nectarines</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {fruitVarieties
-              .filter(fruit => fruit.type === "white-nectarine")
-              .map((fruit, index) => (
-                <div key={index} className="bg-leaf rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row">
-                  <div className="md:w-1/3">
-                    <img 
-                      src={fruit.image} 
-                      alt={fruit.name} 
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-6 md:w-2/3">
-                    <h3 className="text-xl font-serif font-semibold mb-2">{fruit.name}</h3>
-                    <p className="text-gray-700 mb-3">{fruit.description}</p>
-                    <p className="text-sm text-peach font-medium">Season: {fruit.season}</p>
-                  </div>
-                </div>
-              ))}
-          </div>
-        </div>
-      </section>
-      
-      {/* Asian Pears */}
-      <section className="section-padding bg-peach-light">
-        <div className="container mx-auto">
-          <h2 className="heading-medium text-center mb-10">Asian Pears</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {fruitVarieties
-              .filter(fruit => fruit.type === "asian-pear")
-              .map((fruit, index) => (
-                <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row">
-                  <div className="md:w-1/3">
-                    <img 
-                      src={fruit.image} 
-                      alt={fruit.name} 
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-6 md:w-2/3">
-                    <h3 className="text-xl font-serif font-semibold mb-2">{fruit.name}</h3>
-                    <p className="text-gray-700 mb-3">{fruit.description}</p>
-                    <p className="text-sm text-peach font-medium">Season: {fruit.season}</p>
-                  </div>
-                </div>
-              ))}
-          </div>
-        </div>
-      </section>
+        </section>
+      ) : (
+        <>
+          {renderFruitSection('yellow_peach', 'Yellow Peaches', 'bg-peach-light')}
+          {renderFruitSection('white_peach', 'White Peaches', 'bg-white')}
+          {renderFruitSection('yellow_nectarine', 'Yellow Nectarines', 'bg-peach-light')}
+          {renderFruitSection('white_nectarine', 'White Nectarines', 'bg-white')}
+          {renderFruitSection('asian_pear', 'Asian Pears', 'bg-peach-light')}
+        </>
+      )}
       
       {/* Seasonal Availability */}
       <section className="section-padding bg-ranch-blue text-white">

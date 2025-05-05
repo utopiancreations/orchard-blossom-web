@@ -9,7 +9,159 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      content: {
+        Row: {
+          content: string
+          created_at: string | null
+          id: string
+          image_url: string | null
+          page: string
+          section: string
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          id?: string
+          image_url?: string | null
+          page: string
+          section: string
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          id?: string
+          image_url?: string | null
+          page?: string
+          section?: string
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      fruits: {
+        Row: {
+          available_from: string
+          available_to: string
+          created_at: string | null
+          description: string | null
+          id: string
+          image_url: string | null
+          is_featured: boolean
+          name: string
+          type: Database["public"]["Enums"]["fruit_type"]
+          updated_at: string | null
+        }
+        Insert: {
+          available_from: string
+          available_to: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_featured?: boolean
+          name: string
+          type: Database["public"]["Enums"]["fruit_type"]
+          updated_at?: string | null
+        }
+        Update: {
+          available_from?: string
+          available_to?: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_featured?: boolean
+          name?: string
+          type?: Database["public"]["Enums"]["fruit_type"]
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          category: string
+          created_at: string | null
+          description: string | null
+          id: string
+          image_url: string | null
+          in_stock: boolean
+          name: string
+          price: string
+          updated_at: string | null
+        }
+        Insert: {
+          category?: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          in_stock?: boolean
+          name: string
+          price: string
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          in_stock?: boolean
+          name?: string
+          price?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      settings: {
+        Row: {
+          address: string
+          created_at: string | null
+          email: string
+          facebook_url: string
+          hours_weekday: string
+          hours_weekend: string
+          id: string
+          instagram_url: string
+          phone: string
+          season_end: string
+          season_start: string
+          updated_at: string | null
+        }
+        Insert: {
+          address?: string
+          created_at?: string | null
+          email?: string
+          facebook_url?: string
+          hours_weekday?: string
+          hours_weekend?: string
+          id?: string
+          instagram_url?: string
+          phone?: string
+          season_end?: string
+          season_start?: string
+          updated_at?: string | null
+        }
+        Update: {
+          address?: string
+          created_at?: string | null
+          email?: string
+          facebook_url?: string
+          hours_weekday?: string
+          hours_weekend?: string
+          id?: string
+          instagram_url?: string
+          phone?: string
+          season_end?: string
+          season_start?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +170,12 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      fruit_type:
+        | "yellow_peach"
+        | "white_peach"
+        | "yellow_nectarine"
+        | "white_nectarine"
+        | "asian_pear"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -133,6 +290,14 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      fruit_type: [
+        "yellow_peach",
+        "white_peach",
+        "yellow_nectarine",
+        "white_nectarine",
+        "asian_pear",
+      ],
+    },
   },
 } as const
