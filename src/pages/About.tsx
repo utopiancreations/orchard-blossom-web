@@ -4,7 +4,8 @@ import Hero from "../components/Hero";
 const About = () => {
   return (
     <div>
-      <Hero
+       <Hero
+        backgroundVideo="lovable-uploads/video_fx_undefined_2025_05_03_17_23-2.mp4"
         backgroundImage="/lovable-uploads/ad98ec17-4140-41d1-bdfe-63c993a8c1e3.png"
         title="Our Story"
         subtitle="A family tradition of growing the finest peaches in Brentwood since 1955"
@@ -16,7 +17,7 @@ const About = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
             <div>
               <img 
-                src="/lovable-uploads/3830030a-48bf-44d2-b703-2d1759b56e7e.png" 
+                src="/lovable-uploads/509cc7c2-eecb-482d-aac4-35e622e65ab2.png" 
                 alt="Historical photo of Moffatt Ranch" 
                 className="rounded-lg shadow-lg"
               />
@@ -57,7 +58,7 @@ const About = () => {
             
             <div className="order-1 md:order-2">
               <img 
-                src="/lovable-uploads/c3687082-54e9-46de-a06f-a7f352420ccf.png" 
+                src="/lovable-uploads/ad98ec17-4140-41d1-bdfe-63c993a8c1e3.png" 
                 alt="The Moffatt family" 
                 className="rounded-lg shadow-lg"
               />

@@ -6,6 +6,7 @@ const Contact = () => {
   return (
     <div>
       <Hero
+        backgroundVideo="https://firebasestorage.googleapis.com/v0/b/joshresumesite.firebasestorage.app/o/video_fx_undefined_2025_05_06_14_08.mp4?alt=media&token=fd9727f0-53d7-4935-bd74-800375edc3dc"
         backgroundImage="/lovable-uploads/ad98ec17-4140-41d1-bdfe-63c993a8c1e3.png"
         title="Contact Us"
         subtitle="We'd love to hear from you! Get in touch with any questions about our ranch."

@@ -1,13 +1,4 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
-@font-face {
-  font-family: 'Urbandale';
-  src: url('/fonts/Urbandale-Medium.woff2') format('woff2'),
-       url('/fonts/Urbandale-Medium.woff') format('woff');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
 
 @tailwind base;
 @tailwind components;
@@ -107,7 +98,8 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground;
+    font-family: 'Cabin', sans-serif;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -138,16 +130,24 @@
 
 .btn-primary {
   @apply bg-peach hover:bg-peach/90 text-white px-6 py-3 rounded-md font-medium transition-colors;
+  font-family: 'Cabin', sans-serif;
 }
 
 .btn-secondary {
   @apply bg-ranch-blue hover:bg-ranch-blue/90 text-white px-6 py-3 rounded-md font-medium transition-colors;
+  font-family: 'Cabin', sans-serif;
 }
 
 .btn-outline {
   @apply border border-peach text-peach hover:bg-peach/10 px-6 py-3 rounded-md font-medium transition-colors;
+  font-family: 'Cabin', sans-serif;
 }
 
 .font-urbandale {
-  font-family: 'Urbandale', sans-serif;
+  font-family: 'Cabin', sans-serif;
+}
+
+/* Add a utility class for Cabin font */
+.font-cabin {
+  font-family: 'Cabin', sans-serif;
 }

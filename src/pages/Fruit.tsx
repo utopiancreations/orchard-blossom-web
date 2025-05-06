@@ -85,6 +85,7 @@ const Fruit = () => {
   return (
     <div>
       <Hero
+        backgroundVideo="public/lovable-uploads/video_fx_undefined_2025_05_03_17_23-3.mp4"
         backgroundImage="/lovable-uploads/87ed0cf3-be46-4d35-945a-8b493c437024.png"
         title="Our Fruit"
         subtitle="Discover the variety of tree-ripened peaches, nectarines, and Asian pears at Moffatt Ranch"

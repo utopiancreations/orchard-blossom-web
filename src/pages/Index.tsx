@@ -7,14 +7,19 @@ const Index = () => {
   return (
     <div>
       {/* Hero Section */}
-      <Hero
-        backgroundVideo="https://storage.googleapis.com/joshresumesite.firebasestorage.app/video_fx_undefined_2025_05_03_17_23.mp4"
-        backgroundImage="/lovable-uploads/87ed0cf3-be46-4d35-945a-8b493c437024.png" /* Fallback image */
-        imageOverlay="/lovable-uploads/9e45f4b0-f497-4cc5-8015-3058c909c171.png"
-        buttonText="Plan Your Visit"
-        buttonLink="/visit"
-        useUrbandale={true}
-      />
+
+<Hero
+  backgroundVideo="https://firebasestorage.googleapis.com/v0/b/joshresumesite.firebasestorage.app/o/video_fx_undefined_2025_05_03_17_23.mp4?alt=media&token=e7978bb6-5840-48f9-80e3-63806c993f9b"
+  backgroundImage="/lovable-uploads/87ed0cf3-be46-4d35-945a-8b493c437024.png"
+  imageOverlay="/lovable-uploads/9e45f4b0-f497-4cc5-8015-3058c909c171.png"
+  buttonText="Plan Your Visit"
+  buttonLink="/visit"
+  useUrbandale={true}
+>
+  <p className="text-xl text-white max-w-3xl mx-auto font-cabin">
+    Welcome to Moffatt Ranch, where we grow the juiciest peaches, nectarines, and Asian pears in Brentwood, California since 1955
+  </p>
+</Hero>
       
       {/* Features Section */}
       <section className="section-padding bg-leaf">

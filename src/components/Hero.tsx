@@ -15,6 +15,8 @@ type HeroProps = {
   useUrbandale?: boolean;
 };
 
+
+// Updated Hero.tsx component with smaller image size
 const Hero = ({
   backgroundImage,
   backgroundVideo,
@@ -29,7 +31,7 @@ const Hero = ({
 }: HeroProps) => {
   return (
     <div 
-      className="relative h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden"
+      className="relative h-[70vh] md:h-[80vh] flex items-center justify-center overflow-hidden"
     >
       {backgroundVideo ? (
         <video 
@@ -38,6 +40,7 @@ const Hero = ({
           muted 
           loop 
           playsInline
+          preload="auto"
         >
           <source src={backgroundVideo} type="video/mp4" />
           {backgroundImage && <img src={backgroundImage} alt="Fallback" className="w-full h-full object-cover" />}
@@ -55,11 +58,18 @@ const Hero = ({
       
       <div className="container mx-auto px-4 relative z-10 text-center">
         {imageOverlay ? (
-          <img 
-            src={imageOverlay} 
-            alt="Moffatt Ranch Peaches" 
-            className="max-w-full w-auto max-h-[50vh] mx-auto"
-          />
+          <div className="flex flex-col items-center justify-center">
+            <img 
+              src={imageOverlay} 
+              alt="Moffatt Ranch Peaches" 
+              className="w-auto max-h-[35vh] md:max-h-[30vh] mx-auto" // Reduced from 40vh to 35vh/30vh
+            />
+            {children && (
+              <div className="mt-6 font-cabin"> 
+                {children}
+              </div>
+            )}
+          </div>
         ) : (
           <>
             {title && (
@@ -69,10 +79,12 @@ const Hero = ({
             )}
             
             {subtitle && (
-              <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto">
+              <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto font-cabin">
                 {subtitle}
               </p>
             )}
+            
+            {children}
           </>
         )}
         
@@ -81,11 +93,8 @@ const Hero = ({
             {buttonText}
           </Link>
         )}
-        
-        {children}
       </div>
     </div>
   );
 };
-
 export default Hero;

@@ -9,7 +9,7 @@ const Footer = () => {
           {/* Logo and About */}
           <div className="flex flex-col items-center md:items-start">
             <img 
-              src="/lovable-uploads/2399ad98-c225-4056-8b5d-14fa66f5396b.png" 
+              src="/lovable-uploads/7a4769d7-643d-4a8f-84fa-4ed084f81d1f.png" 
               alt="Moffatt Ranch Logo" 
               className="h-16 mb-4"
             />
