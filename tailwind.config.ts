@@ -105,7 +105,8 @@ export default {
 			},
 			fontFamily: {
 				serif: ['Playfair Display', 'serif'],
-				sans: ['Roboto', 'sans-serif']
+				sans: ['Roboto', 'sans-serif'],
+				urbandale: ['Urbandale', 'sans-serif']
 			}
 		}
 	},

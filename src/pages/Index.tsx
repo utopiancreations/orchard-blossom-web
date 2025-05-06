@@ -8,11 +8,12 @@ const Index = () => {
     <div>
       {/* Hero Section */}
       <Hero
-        backgroundImage="/lovable-uploads/87ed0cf3-be46-4d35-945a-8b493c437024.png"
-        title="Brentwood's Sweetest Peaches Since 1955"
-        subtitle="Welcome to Moffatt Ranch, where we grow the juiciest peaches, nectarines, and Asian pears in Brentwood, California"
+        backgroundVideo="https://storage.googleapis.com/joshresumesite.firebasestorage.app/video_fx_undefined_2025_05_03_17_23.mp4"
+        backgroundImage="/lovable-uploads/87ed0cf3-be46-4d35-945a-8b493c437024.png" /* Fallback image */
+        imageOverlay="/lovable-uploads/9e45f4b0-f497-4cc5-8015-3058c909c171.png"
         buttonText="Plan Your Visit"
         buttonLink="/visit"
+        useUrbandale={true}
       />
       
       {/* Features Section */}

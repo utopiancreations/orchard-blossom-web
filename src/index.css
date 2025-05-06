@@ -1,5 +1,12 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+@font-face {
+  font-family: 'Urbandale';
+  src: url('/fonts/Urbandale-Medium.woff2') format('woff2'),
+       url('/fonts/Urbandale-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
@@ -138,4 +145,8 @@
 
 .btn-outline {
   @apply border border-peach text-peach hover:bg-peach/10 px-6 py-3 rounded-md font-medium transition-colors;
+}
+
+.font-urbandale {
+  font-family: 'Urbandale', sans-serif;
 }
