@@ -63,7 +63,7 @@ const Hero = ({
         ) : (
           <>
             {title && (
-              <h1 className={`text-4xl md:text-6xl font-bold text-white mb-4 ${useUrbandale ? 'font-urbandale' : 'font-serif'}`}>
+              <h1 className={`text-4xl md:text-6xl font-bold text-white mb-4 ${useUrbandale ? 'font-urbandale' : 'font-sans'}`}>
                 {title}
               </h1>
             )}
